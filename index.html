@@ -12,217 +12,38 @@
       background-position: center;
       background-attachment: fixed;
       min-height: 100vh;
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: sans-serif;
       color: #fff;
-    }
-
-    header {
       text-align: center;
-      margin: 40px 0 20px 0;
     }
-
-    /* Efekt 3D i błysku na tytule */
     h1 {
       font-size: 3.5em;
-      font-weight: 900;
-      color: #ff6f00;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      text-shadow:
-         1px 1px 0 #d84315,
-         2px 2px 0 #bf360c,
-         3px 3px 5px rgba(0,0,0,0.6),
-         0 0 10px #ff6f00,
-         0 0 20px #ff8f00,
-         0 0 30px #ff6f00,
-         0 0 40px #ff6f00;
-      margin: 0 auto;
-      max-width: 90%;
-      display: inline-block;
-      animation: pulseGlow 3s infinite ease-in-out;
-    }
-
-    @keyframes pulseGlow {
-      0%, 100% {
-        text-shadow:
-          1px 1px 0 #d84315,
-          2px 2px 0 #bf360c,
-          3px 3px 5px rgba(0,0,0,0.6),
-          0 0 10px #ff6f00,
-          0 0 20px #ff8f00,
-          0 0 30px #ff6f00,
-          0 0 40px #ff6f00;
-      }
-      50% {
-        text-shadow:
-          1px 1px 0 #ff8f00,
-          2px 2px 0 #ffa726,
-          3px 3px 10px rgba(0,0,0,0.8),
-          0 0 15px #ff8f00,
-          0 0 30px #ffb74d,
-          0 0 40px #ff8f00,
-          0 0 60px #ffb74d;
-      }
-    }
-
-    .scrolling-subtitle-container {
-      width: 100%;
-      overflow: hidden;
-      background-color: rgba(0, 0, 0, 0.6);
-      padding: 10px 0;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-    }
-
-    .special-subtitle {
-      font-size: 1.5em;
-      font-weight: bold;
-      color: #ffd700;
-      text-shadow: 1px 1px 2px #000;
-      white-space: nowrap;
-      display: inline-block;
-      padding-left: 100%;
-      animation: scroll-text 25s linear infinite;
-    }
-
-    @keyframes scroll-text {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
-    }
-
-    nav ul {
-      list-style-type: none;
-      padding: 0;
-      text-align: center;
-      margin: 30px 0;
-    }
-
-    nav ul li {
-      display: inline-block;
-      margin: 0 10px;
-    }
-
-    nav ul li a {
-      display: block;
-      padding: 12px 22px;
-      font-weight: bold;
-      color: #000;
-      text-decoration: none;
-      border-radius: 8px;
-      background: linear-gradient(to bottom, #d32f2f, #b71c1c);
-      border: 1px solid #7f0000;
-      box-shadow: 0 4px 0 #7f0000, 0 5px 5px rgba(0,0,0,0.4);
-      transition: all 0.1s ease-in-out;
-    }
-
-    nav ul li a:hover {
-      background: linear-gradient(to bottom, #e57373, #d32f2f);
+      text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 40px #d32f2f, 0 0 80px #d32f2f;
       color: #fff;
-    }
-
-    nav ul li a:active {
-      transform: translateY(2px);
-      box-shadow: 0 2px 0 #7f0000, 0 3px 3px rgba(0,0,0,0.4);
-    }
-
-    .animated-warning {
-      position: relative;
-      background: rgba(0, 0, 0, 0.65);
-      border: 2px solid #ffd700;
-      border-radius: 15px;
-      padding: 30px;
-      margin: 40px auto;
-      max-width: 850px;
-      text-align: center;
-      box-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
-      animation: softPulse 6s infinite ease-in-out;
-      color: #fffacd;
-      font-family: 'Georgia', serif;
-      font-size: 1.4em;
-      font-weight: bold;
-      text-shadow: 0 0 6px rgba(255, 215, 0, 0.7);
-    }
-
-    @keyframes softPulse {
-      0%, 100% { box-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
-      50% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.7); }
-    }
-
-    .spark-container {
-      max-width: 900px;
-      margin: 40px auto;
-      text-align: center;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-      position: relative;
-      color: #ffd700;
-      font-weight: bold;
-      font-size: 1.5em;
-      text-shadow: 0 0 10px #fff59d, 0 0 20px #fff176;
-      transition: opacity 0.5s ease;
-    }
-
-    .spark-text {
-      min-height: 80px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
-
-    .spark-button {
-      padding: 10px 20px;
-      background: #ff9800;
-      color: #fff;
-      font-weight: bold;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .spark-button:hover {
-      background: #e65100;
-    }
-
-    @keyframes flicker {
-      0%, 100% { opacity: 1; text-shadow: 0 0 10px #fff59d, 0 0 20px #fff176; }
-      50% { opacity: 0.7; text-shadow: 0 0 20px #ffd54f, 0 0 30px #ffca28; }
-    }
-
-    .comments-section {
-      padding: 20px;
-      margin-top: 30px;
-      background-color: #f9f9f9;
-      border-top: 1px solid #ddd;
-      color: #000;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px 10px;
-      background-color: rgba(0,0,0,0.7);
-      color: #ffd700;
-      font-weight: bold;
-      font-size: 1em;
-      text-shadow: 0 0 4px #ffb300;
-      position: relative;
+      animation: pulse-red 2s infinite alternate;
       margin-top: 40px;
     }
-
-    footer a {
-      color: #ffb300;
-      text-decoration: none;
-      font-weight: bold;
-      transition: color 0.3s;
+    @keyframes pulse-red {
+      from { text-shadow: 0 0 5px #ff4d4d, 0 0 10px #ff4d4d, 0 0 15px #ff4d4d, 0 0 20px #d32f2f, 0 0 35px #d32f2f; }
+      to { text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000, 0 0 40px #b71c1c, 0 0 70px #b71c1c; }
     }
-
-    footer a:hover {
-      color: #ffd54f;
-      text-decoration: underline;
-    }
+    .scrolling-subtitle-container { width: 100%; overflow: hidden; background-color: rgba(0, 0, 0, 0.6); padding: 10px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+    .special-subtitle { font-size: 1.5em; font-weight: bold; color: #ffd700; text-shadow: 1px 1px 2px #000; white-space: nowrap; display: inline-block; padding-left: 100%; animation: scroll-text 25s linear infinite; }
+    @keyframes scroll-text { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+    nav ul { list-style-type: none; padding: 0; text-align: center; }
+    nav ul li { display: inline-block; margin: 10px; }
+    nav ul li a { display: block; padding: 12px 22px; font-weight: bold; color: #000; text-decoration: none; border-radius: 8px; background: linear-gradient(to bottom, #d32f2f, #b71c1c); border: 1px solid #7f0000; box-shadow: 0 4px 0 #7f0000, 0 5px 5px rgba(0,0,0,0.4); transition: all 0.1s ease-in-out; }
+    nav ul li a:hover { background: linear-gradient(to bottom, #e57373, #d32f2f); }
+    nav ul li a:active { transform: translateY(2px); box-shadow: 0 2px 0 #7f0000, 0 3px 3px rgba(0,0,0,0.4); }
+    .animated-warning, .spark-container { text-align: center; max-width: 900px; margin: 40px auto; background: rgba(0, 0, 0, 0.6); padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+    .animated-warning { border: 2px solid #ffd700; animation: softPulse 6s infinite ease-in-out; }
+    .animated-warning p { font-family: 'Georgia', serif; font-size: 1.4em; font-weight: bold; color: #fffacd; text-shadow: 0 0 6px rgba(255, 215, 0, 0.7); margin: 0; line-height: 1.6; }
+    @keyframes softPulse { 0%, 100% { box-shadow: 0 0 10px rgba(255, 215, 0, 0.3); } 50% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.7); } }
+    .spark-text { font-size: 1.5em; font-weight: bold; color: #ffd700; text-shadow: 0 0 10px #fff59d, 0 0 20px #fff176; animation: flicker 2s infinite; min-height: 80px; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease; padding: 0 20px; }
+    .spark-button { margin-top: 20px; padding: 10px 20px; background: #ff9800; color: #fff; font-weight: bold; border: none; border-radius: 25px; cursor: pointer; transition: background 0.3s; }
+    .spark-button:hover { background: #e65100; }
+    @keyframes flicker { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+    .comments-section { padding: 20px; margin-top: 30px; background-color: #f9f9f9; border-top: 1px solid #ddd; color: #333; }
   </style>
 </head>
 <body>
@@ -232,84 +53,50 @@
       <p class="special-subtitle">To miejsce dla ubrudzonych życiem – i dla tych, którzy szukają światła</p>
     </div>
   </header>
-
   <nav>
-    <ul>
-      <li><a href="piciorys.html">Piciorys Chudego</a></li>
-      <li><a href="kronika.html">Kronika</a></li>
-      <li><a href="opowiesci.html">Opowieści</a></li>
-      <li><a href="choroba.html">Czym jest choroba alkoholowa?</a></li>
-      <li><a href="ksiezniczka.html">Z punktu widzenia księżniczki</a></li>
-      <li><a href="galeria.html">Galeria</a></li>
-      <li><a href="pomoc.html">Gdzie szukać pomocy</a></li>
-    </ul>
+    <ul id="main-menu"><li>Ładowanie menu...</li></ul>
   </nav>
-
   <main>
     <div class="animated-warning">
       <p>„Drodzy rodzice, jeśli wy zaniedbacie i nie nauczycie swoich dzieci, czym i po co są uczucia, jak je przeżywać i radzić sobie z nimi, zrobi to alkohol – bezlitośnie i bez skrupułów.”</p>
     </div>
-
     <div class="spark-container">
-      <div id="sparkText" class="spark-text">„Nigdy nie wątp, że jesteś potrzebny światu – nawet, gdy cały ci mówi, że nie.”</div>
+      <div id="sparkText" class="spark-text">Ładowanie iskierki...</div>
       <button class="spark-button" onclick="changeSpark()">💫 Daj kolejną iskrę</button>
     </div>
-
     <section id="comments" class="comments-section">
       <h2>Podziel się swoją historią lub wesprzyj innych</h2>
       <p>Twoje doświadczenie ma znaczenie. Anonimowo lub nie – każde słowo wsparcia jest bezcenne.</p>
       <div id="disqus_thread"></div>
-      <script>
-        (function() {
-          var d = document, s = d.createElement('script');
-          s.src = 'https://od-dna-do-swiatla.disqus.com/embed.js';
-          s.setAttribute('data-timestamp', +new Date());
-          (d.head || d.body).appendChild(s);
-        })();
-      </script>
-      <noscript>Włącz JavaScript, aby zobaczyć <a href="https://disqus.com/?ref_noscript">komentarze z Disqus.</a></noscript>
     </section>
   </main>
-
-  <audio autoplay loop controls>
-    <source src="jestes-moim-aniolem.mp3" type="audio/mpeg">
-    Twoja przeglądarka nie obsługuje odtwarzacza audio.
-  </audio>
-
+  <audio autoplay loop controls><source src="jestes-moim-aniolem.mp3" type="audio/mpeg"></audio>
   <footer>
     <p>© 2025 Od Dna do Światła</p>
-    <p>Autor: Chudy | Kontakt: <a href="mailto:Asatro@interia.pl">Asatro@interia.pl</a></p>
+    <p>Autor: Chudy | Kontakt: Asatro@interia.pl</p>
   </footer>
-
   <script>
-    const sparks = [
-      "„Nigdy nie wątp, że jesteś potrzebny światu – nawet, gdy cały ci mówi, że nie.”",
-      "„Zawsze jesteś silniejszy niż ci się wydaje.”",
-      "„Z ciemności wychodzą ci, którzy kiedyś sami byli światłem.”",
-      "„Twoja przeszłość to nie wyrok – to fundament.”",
-      "„W miejscu, w którym się podniosłeś – tam rośnie twoja siła.”",
-      "„Światło nie krzyczy. Ono po prostu świeci.”",
-      "„Najgłębsza rana to ta, z której później wyrasta serce wojownika.”",
-      "„Jeśli się boisz – to znaczy, że wciąż masz coś do stracenia. A to znaczy, że żyjesz.”"
-    ];
-
-    function changeSpark() {
-      const sparkText = document.getElementById("sparkText");
-      const current = sparkText.innerText;
-      let newIndex;
-
-      do {
-        newIndex = Math.floor(Math.random() * sparks.length);
-      } while (sparks[newIndex] === current);
-
-      sparkText.style.opacity = 0;
-      setTimeout(() => {
-        sparkText.innerText = sparks[newIndex];
-        sparkText.style.opacity = 1;
-      }, 300);
+    window.onerror = function(msg) { document.body.innerHTML = `<div style="color:red; background:white; padding:20px;"><h1>Błąd krytyczny</h1><p>${msg}</p></div>`; }
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script>
+    const firebaseConfig = { apiKey: "AIzaSyANxGt1rQtBamptyYVI5ZNMtyGbpOhWBqE", authDomain: "od-dna-do-swiatla.firebaseapp.com", projectId: "od-dna-do-swiatla", storageBucket: "od-dna-do-swiatla.firebasestorage.app", messagingSenderId: "96366183668", appId: "1:96366183668:web:37f36a4004dd6fd85acaa1" };
+    let db;
+    try { firebase.initializeApp(firebaseConfig); db = firebase.firestore(); } catch (e) { console.error("Błąd inicjalizacji Firebase: ", e); document.getElementById('main-menu').innerHTML = '<li>Błąd konfiguracji Firebase</li>'; }
+  </script>
+  <script>
+    let sparks = [];
+    const sparkText = document.getElementById("sparkText");
+    const mainMenu = document.getElementById('main-menu');
+    function changeSpark() { if (!sparks || sparks.length === 0) return; const current = sparkText.innerText; let newSpark; do { newSpark = sparks[Math.floor(Math.random() * sparks.length)]; } while (sparks.length > 1 && newSpark === current); sparkText.style.opacity = 0; setTimeout(() => { sparkText.innerText = newSpark; sparkText.style.opacity = 1; }, 300); }
+    async function initializePage() {
+        if (!db) { sparkText.innerText = "Błąd połączenia z bazą danych."; mainMenu.innerText = "Błąd menu."; return; }
+        try { const menuSnapshot = await db.collection('_sections').orderBy('name').get(); mainMenu.innerHTML = ''; menuSnapshot.forEach(doc => { const section = doc.data(); mainMenu.innerHTML += `<li><a href="${section.slug}.html">${section.name}</a></li>`; }); } catch (e) { console.error("Błąd ładowania menu:", e); mainMenu.innerHTML = '<li>Błąd ładowania menu</li>'; }
+        try { const sparksSnapshot = await db.collection('iskierki').get(); sparks = sparksSnapshot.docs.map(doc => doc.data().content); if(sparks.length > 0) { changeSpark(); setInterval(changeSpark, 30000); } else { sparkText.innerText = "Brak iskierek w bazie."; } } catch (e) { console.error("Błąd ładowania iskierek:", e); sparkText.innerText = "Błąd ładowania iskierek."; }
     }
-
-    setInterval(changeSpark, 30000);
+    (function() { var d = document, s = d.createElement('script'); s.src = 'https://od-dna-do-swiatla.disqus.com/embed.js'; s.setAttribute('data-timestamp', +new Date()); (d.head || d.body).appendChild(s); })();
+    window.addEventListener('load', initializePage);
   </script>
 </body>
 </html>
