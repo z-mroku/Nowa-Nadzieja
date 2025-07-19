@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>Panel Admina - Od Dna do Światła</title>
+  <style>body{font-family:Arial,sans-serif;background:#111;color:#ffd700;padding:20px;max-width:600px;margin:auto}label,select,input,textarea,button{display:block;width:100%;margin-top:10px;font-size:1em}input,select,textarea{padding:8px;border-radius:5px;border:none}textarea{min-height:120px;resize:vertical}button{background:#d32f2f;color:#fff;font-weight:700;border:none;cursor:pointer;margin-top:20px;padding:12px;border-radius:10px;transition:background-color .3s}button:disabled{background:#555;cursor:not-allowed}#loginSection,#adminSection{margin-top:30px}.hidden{display:none}.success{color:#4caf50;margin-top:10px;font-weight:700}.section-management{background:rgba(255,255,255,0.1);padding:15px;border-radius:10px;margin-bottom:30px}</style>
+</head>
+<body>
+  <h1>Panel Admina - Od Dna do Światła</h1>
+  <section id="loginSection">
+    <label>Hasło dostępu:</label><input type="password" id="passwordInput" placeholder="Wpisz hasło..." /><button id="loginBtn">Zaloguj się</button><p id="loginError" style="color:#ff4444; display:none;">Błędne hasło!</p>
+  </section>
+  <section id="adminSection" class="hidden">
+    <div class="section-management">
+        <h3>Zarządzaj sekcjami menu</h3><label>Nazwa nowej sekcji (np. "Moje Wiersze"):</label><input type="text" id="newSectionNameInput" placeholder="Nazwa widoczna w menu..." /><button id="addSectionBtn">Dodaj nową sekcję</button>
+    </div>
+    <h3>Dodaj nowy wpis</h3><label>Wybierz sekcję:</label>
+    <select id="sectionSelect"><option>Ładowanie sekcji z bazy...</option></select>
+
+    <div id="standard-fields" class="hidden">
+        <label>Tytuł wpisu:</label><input type="text" id="titleInput" /><label>Treść wpisu:</label><textarea id="contentInput"></textarea><label>Autor (opcjonalnie):</label><input type="text" id="authorInput" />
+    </div>
+    <div id="spark-fields" class="hidden">
+        <label>Treść Iskierki (cytatu):</label><textarea id="sparkContentInput"></textarea>
+    </div>
+    <div id="gallery-fields" class="hidden">
+        <label>Nazwa pliku zdjęcia (np. zdjecie1.jpg):</label><input type="text" id="galleryFilenameInput" /><label>Podpis zdjęcia:</label><input type="text" id="galleryCaptionInput" />
+    </div>
+    <div id="help-fields" class="hidden">
+        <label>Nazwa placówki:</label><input type="text" id="helpNameInput" />
+        <label>Województwo:</label>
+        <select id="helpVoivodeshipInput">
+          <option value="Ogólnopolska">Ogólnopolska pomoc</option><option value="Dolnośląskie">Dolnośląskie</option><option value="Kujawsko-Pomorskie">Kujawsko-Pomorskie</option><option value="Lubelskie">Lubelskie</option><option value="Lubuskie">Lubuskie</option><option value="Łódzkie">Łódzkie</option><option value="Małopolskie">Małopolskie</option><option value="Mazowieckie">Mazowieckie</option><option value="Opolskie">Opolskie</option><option value="Podkarpackie">Podkarpackie</option><option value="Podlaskie">Podlaskie</option><option value="Pomorskie">Pomorskie</option><option value="Śląskie">Śląskie</option><option value="Świętokrzyskie">Świętokrzyskie</option><option value="Warmińsko-Mazurskie">Warmińsko-Mazurskie</option><option value="Wielkopolskie">Wielkopolskie</option><option value="Zachodniopomorskie">Zachodniopomorskie</option>
+        </select>
+        <label>Adres:</label><input type="text" id="helpAddressInput" />
+        <label>Telefon:</label><input type="text" id="helpPhoneInput" />
+        <label>Opis:</label><textarea id="helpDescriptionInput"></textarea>
+    </div>
+
+    <button id="saveBtn">Zapisz wpis</button><p id="saveSuccess" class="success hidden">Wpis został zapisany!</p>
+  </section>
+  
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script>
+    const firebaseConfig = { apiKey: "AIzaSyANxGt1rQtBamptyYVI5ZNMtyGbpOhWBqE", authDomain: "od-dna-do-swiatla.firebaseapp.com", projectId: "od-dna-do-swiatla", storageBucket: "od-dna-do-swiatla.firebasestorage.app", messagingSenderId: "96366183668", appId: "1:96366183668:web:37f36a4004dd6fd85acaa1" };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+  </script>
+  <script>
+    const sectionSelect = document.getElementById('sectionSelect');
+    function createSlug(text) { return text.toString().toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-').replace(/^-+/, '').replace(/-+$/, ''); }
+    
+    async function loadSections() {
+        sectionSelect.innerHTML = '<option>Ładowanie...</option>';
+        try {
+            const querySnapshot = await db.collection('_sections').orderBy('name').get();
+            sectionSelect.innerHTML = '';
+            
+            // NAJPIERW DODAJEMY SEKCJE DODANE PRZEZ UŻYTKOWNIKA Z BAZY
+            querySnapshot.forEach(doc => { 
+                const section = doc.data(); 
+                const option = document.createElement('option'); 
+                option.value = section.slug; 
+                option.textContent = section.name; 
+                sectionSelect.appendChild(option); 
+            });
+
+            // TERAZ DODAJEMY WSZYSTKIE PODSTAWOWE SEKCJE - TO JEST POPRAWKA
+            const coreSections = [
+                {value: 'piciorys', text: 'Piciorys'},
+                {value: 'kronika', text: 'Kronika'},
+                {value: 'opowiesci', text: 'Opowieści'},
+                {value: 'choroba', text: 'Czym jest choroba alkoholowa?'},
+                {value: 'ksiezniczka', text: 'Z punktu widzenia księżniczki'},
+                {value: 'pomoc', text: 'Pomoc - Ośrodki'},
+                {value: 'galeria', text: 'Galeria'},
+                {value: 'iskierki', text: 'Iskierki (cytaty)'}
+            ];
+            coreSections.forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = item.value;
+                opt.textContent = item.text;
+                sectionSelect.appendChild(opt);
+            });
+
+            sectionSelect.dispatchEvent(new Event('change'));
+        } catch (error) { console.error("Błąd ładowania sekcji: ", error); sectionSelect.innerHTML = '<option>Błąd ładowania</option>'; }
+    }
+
+    document.getElementById('addSectionBtn').addEventListener('click', async () => {
+        const sectionName = document.getElementById('newSectionNameInput').value.trim();
+        if (!sectionName) return alert('Wpisz nazwę nowej sekcji.');
+        const sectionSlug = createSlug(sectionName);
+        const btn = document.getElementById('addSectionBtn');
+        btn.disabled = true; btn.textContent = 'Dodawanie...';
+        try {
+            await db.collection('_sections').doc(sectionSlug).set({ name: sectionName, slug: sectionSlug, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+            alert(`Sekcja "${sectionName}" została dodana!`);
+            document.getElementById('newSectionNameInput').value = '';
+            await loadSections();
+        } catch(error) { console.error("Błąd dodawania sekcji: ", error); alert('Wystąpił błąd.');
+        } finally { btn.disabled = false; btn.textContent = 'Dodaj nową sekcję'; }
+    });
+    document.getElementById('loginBtn').addEventListener('click', () => {
+      if(document.getElementById('passwordInput').value === "chudy79") {
+        document.getElementById('loginSection').classList.add('hidden'); document.getElementById('adminSection').classList.remove('hidden'); loadSections();
+      } else { document.getElementById('loginError').style.display = 'block'; }
+    });
+
+    const allFields = {
+        standard: document.getElementById('standard-fields'),
+        spark: document.getElementById('spark-fields'),
+        gallery: document.getElementById('gallery-fields'),
+        help: document.getElementById('help-fields')
+    };
+
+    sectionSelect.addEventListener('change', (e) => {
+        Object.values(allFields).forEach(f => f.classList.add('hidden'));
+        const v = e.target.value;
+        if (v === 'iskierki') allFields.spark.classList.remove('hidden');
+        else if (v === 'galeria') allFields.gallery.classList.remove('hidden');
+        else if (v === 'pomoc') allFields.help.classList.remove('hidden');
+        else allFields.standard.classList.remove('hidden');
+    });
+    
+    document.getElementById('saveBtn').addEventListener('click', () => {
+      const section = sectionSelect.value; let dataToSave = {}; const saveBtn = document.getElementById('saveBtn');
+      if (section === 'pomoc') {
+          dataToSave = { name: document.getElementById('helpNameInput').value.trim(), voivodeship: document.getElementById('helpVoivodeshipInput').value, address: document.getElementById('helpAddressInput').value.trim(), phone: document.getElementById('helpPhoneInput').value.trim(), description: document.getElementById('helpDescriptionInput').value.trim(), createdAt: firebase.firestore.FieldValue.serverTimestamp() };
+          if(!dataToSave.name || !dataToSave.voivodeship) return alert('Nazwa i województwo są wymagane!');
+      } else if (section === 'iskierki') {
+          dataToSave = { content: document.getElementById('sparkContentInput').value.trim(), createdAt: firebase.firestore.FieldValue.serverTimestamp() };
+          if(!dataToSave.content) return alert('Treść iskierki jest wymagana!');
+      } else if (section === 'galeria') {
+          dataToSave = { filename: document.getElementById('galleryFilenameInput').value.trim(), caption: document.getElementById('galleryCaptionInput').value.trim(), createdAt: firebase.firestore.FieldValue.serverTimestamp() };
+          if(!dataToSave.filename || !dataToSave.caption) return alert('Nazwa pliku i podpis są wymagane!');
+      } else {
+          dataToSave = { title: document.getElementById('titleInput').value.trim(), content: document.getElementById('contentInput').value.trim(), author: document.getElementById('authorInput').value.trim() || "Anonim", createdAt: firebase.firestore.FieldValue.serverTimestamp()};
+          if(!dataToSave.title || !dataToSave.content) return alert('Tytuł i treść są wymagane!');
+      }
+      saveBtn.disabled = true; saveBtn.textContent = 'Zapisywanie...';
+      db.collection(section).add(dataToSave).then(() => {
+        document.getElementById('saveSuccess').classList.remove('hidden');
+        setTimeout(() => document.getElementById('saveSuccess').classList.add('hidden'), 3000);
+        document.querySelectorAll('input, textarea').forEach(el => el.value = '');
+      }).catch((error) => { console.error("Błąd zapisu: ", error); alert("Błąd zapisu.");
+      }).finally(() => { saveBtn.disabled = false; saveBtn.textContent = 'Zapisz wpis'; });
+    });
+  </script>
+</body>
+</html>
