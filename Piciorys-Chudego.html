@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Piciorys Chudego – Od Dna do Światła</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    body { font-family: 'Georgia', serif; } /* Dodałem domyślną czcionkę */
+    .newspaper-article { background-color: #fdf5e6; padding: 25px; border: 1px solid #ccc; box-shadow: 3px 3px 8px rgba(0,0,0,0.2); max-width: 900px; margin: 30px auto; }
+    .newspaper-headline-wrapper { border-bottom: 3px double #333; padding-bottom: 20px; margin-bottom: 20px; }
+    .newspaper-headline { text-align: center; font-family: 'Playfair Display', serif; font-size: 2em; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #9d261d; text-shadow: 1px 1px 1px rgba(0,0,0,0.3); }
+    .newspaper-headline-quote { text-align: center; font-style: italic; margin-top: 15px; font-family: 'Georgia', serif; font-size: 1.1em; line-height: 1.6; }
+    .newspaper-text-content { font-family: 'Georgia', 'Times New Roman', serif; font-size: 1.1em; line-height: 1.7; color: #333; text-align: justify; }
+    @media (min-width: 768px) { .newspaper-text-content { column-count: 2; column-gap: 30px; } }
+    .speak-button-container { text-align: center; margin: 25px 0; }
+    .speak-button { padding: 10px 20px; font-size: 1.1em; font-weight: bold; border: none; border-radius: 25px; cursor: pointer; color: #fff; background-color: #28a745; }
+    /* Dodaj style dla headera i przycisku powrotu, jeśli są w zewnętrznym pliku */
+    header { text-align: center; padding: 20px; background: #333; color: white; }
+    .back-to-home-button { color: #ffcc00; text-decoration: none; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Piciorys Chudego</h1>
+    <a href="index.html" class="back-to-home-button">⟵ Powrót</a>
+  </header>
+  <main>
+    <article class="newspaper-article">
+      <div id="piciorys-wstep">
+        <p>Ładowanie wstępu...</p>
+      </div>
+      <div class="speak-button-container"><button id="speakBtn1" class="speak-button">▶️ Odsłuchaj Wstęp</button></div>
+      <div id="piciorys-historia" class="newspaper-text-content">
+        <p>Ładowanie historii...</p>
+      </div>
+      <div class="speak-button-container"><button id="speakBtn2" class="speak-button">▶️ Odsłuchaj Historię</button></div>
+    </article>
+  </main>
+  
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script>
+    const firebaseConfig = { apiKey: "AIzaSyANxGt1rQtBamptyYVI5ZNMtyGbpOhWBqE", authDomain: "od-dna-do-swiatla.firebaseapp.com", projectId: "od-dna-do-swiatla", storageBucket: "od-dna-do-swiatla.firebasestorage.app", messagingSenderId: "96366183668", appId: "1:96366183668:web:37f36a4004dd6fd85acaa1" };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+  </script>
+  <script>
+    function createLector(buttonId, textElementId, buttonText) {
+      const btn = document.getElementById(buttonId);
+      if (!btn) return;
+      const textElement = document.getElementById(textElementId);
+      if (!textElement) return;
+      const fullText = textElement.innerText;
+      let sentences = fullText.match(/[^.!?…]+[.!?…]?/g) || [fullText];
+      let currentIndex = 0; let isReading = false;
+      function readSentence(i) {
+        if (!isReading || i >= sentences.length) { btn.textContent = `▶️ ${buttonText}`; currentIndex = 0; isReading = false; window.speechSynthesis.cancel(); return; }
+        const utterance = new SpeechSynthesisUtterance(sentences[i].trim());
+        utterance.lang = "pl-PL";
+        utterance.onend = () => { if (isReading) { currentIndex++; readSentence(currentIndex); } };
+        window.speechSynthesis.speak(utterance);
+      }
+      btn.addEventListener("click", () => {
+        const synth = window.speechSynthesis;
+        if (isReading) { isReading = false; synth.cancel(); btn.textContent = `🔄 Wznów`; } 
+        else { isReading = true; btn.textContent = `⏸️ Pauza`; readSentence(currentIndex); }
+      });
+    }
+
+    window.addEventListener('load', () => {
+        const wstepContainer = document.getElementById('piciorys-wstep');
+        const historiaContainer = document.getElementById('piciorys-historia');
+
+        db.collection('piciorys').orderBy('createdAt', 'desc').limit(1).get()
+            .then(snapshot => {
+                if(snapshot.empty) {
+                    wstepContainer.innerHTML = "<p>Brak treści. Dodaj ją w panelu admina.</p>";
+                    historiaContainer.innerHTML = "";
+                    return;
+                }
+                
+                const data = snapshot.docs[0].data();
+                const [quote, story] = data.content.split('===SEPARATOR===');
+
+                // Wypełnij Wstęp
+                wstepContainer.innerHTML = `
+                    <div class="newspaper-headline-wrapper">
+                        <h2 class="newspaper-headline">${data.title}</h2>
+                        <p class="newspaper-headline-quote">${quote.trim()}</p>
+                    </div>
+                `;
+
+                // Wypełnij Historię
+                historiaContainer.innerHTML = `<p>${story.trim().replace(/\n/g, '</p><p>')}</p>`;
+
+                // Uruchom lektory
+                createLector("speakBtn1", "piciorys-wstep", "Odsłuchaj Wstęp");
+                createLector("speakBtn2", "piciorys-historia", "Odsłuchaj Historię");
+            })
+            .catch(error => {
+                console.error("Błąd ładowania piciorysu: ", error);
+                wstepContainer.innerHTML = "<p>Błąd ładowania danych.</p>";
+            });
+    });
+  </script>
+</body>
+</html>
