@@ -1,84 +1,118 @@
+
 <!DOCTYPE html>
 <html lang="pl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Galeria - Od Dna do Światła</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <title>Galeria z Duszą</title>
   <style>
-    .gallery-container { padding: 20px; max-width: 1200px; margin: 0 auto; }
-    .restoration-project { background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin-bottom: 30px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    .restoration-project h2 { text-align: center; margin-top: 0; font-size: 2em; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 25px; }
-    .comparison-container { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; }
-    .image-column { flex: 1; min-width: 300px; text-align: center; }
-    .image-column h3 { font-size: 1.8em; margin-bottom: 15px; }
-    .image-column.before h3 { color: #dc3545; }
-    .image-column.after h3 { color: #28a745; }
-    .image-column img { width: 100%; height: auto; border-radius: 4px; border: 1px solid #ccc; margin-bottom: 10px; }
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #0f0f0f, #1e1e1e);
+      color: #fff7c2;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 50px;
+    }
+    h1 {
+      margin: 30px 0;
+      font-size: 3rem;
+      color: #ffcc00;
+      animation: glow 2s ease-in-out infinite alternate;
+      letter-spacing: 3px;
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 5px #ffcc00, 0 0 10px #ff9900; }
+      to { text-shadow: 0 0 20px #ffee33, 0 0 30px #ff9900; }
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      padding: 0 20px;
+      max-width: 1200px;
+      width: 100%;
+    }
+    .photo {
+      position: relative;
+      overflow: hidden;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .photo:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 30px rgba(255, 204, 0, 0.3);
+    }
+    .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 15px;
+    }
+    .caption {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background: rgba(0,0,0,0.5);
+      color: #fff;
+      padding: 10px;
+      font-size: 1rem;
+      text-align: center;
+      backdrop-filter: blur(5px);
+    }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Galeria Drugiego Życia</h1>
-    <a href="index.html" class="back-to-home-button">⟵ Powrót</a>
-  </header>
-
-  <main>
-    <div class="gallery-container">
-
-      <div class="restoration-project">
-        <h2>Huśtawka "Druga Szansa"</h2>
-        <div class="comparison-container">
-          <div class="image-column before">
-            <h3>PRZED</h3>
-            <img src="https://i.postimg.cc/7PBN4PSj/20250705-193446.jpg" alt="Przed renowacją">
-            <img src="https://i.postimg.cc/N2kfJprQ/20250619-172301.jpg" alt="Przed renowacją">
-            <img src="https://i.postimg.cc/HjwxksvF/20250620-180736.jpg" alt="Przed renowacją">
-            <img src="https://i.postimg.cc/QFTNv876/20250620-194716.jpg" alt="Przed renowacją">
-          </div>
-          <div class="image-column after">
-            <h3>PO</h3>
-            <img src="https://i.postimg.cc/wt1MqXnk/IMG-20250705-WA0000.jpg" alt="Po renowacji">
-          </div>
-        </div>
-      </div>
-
-      <div class="restoration-project">
-        <h2>Ławka "Nowe Oblicze"</h2>
-        <div class="comparison-container">
-          <div class="image-column before">
-            <h3>PRZED</h3>
-            <img src="https://i.postimg.cc/bdWKWQRh/IMG-20240716-WA0000.jpg" alt="Przed renowacją">
-            <img src="https://i.postimg.cc/Z0CGwfpH/IMG-20240717-WA0002.jpg" alt="Przed renowacją">
-          </div>
-          <div class="image-column after">
-            <h3>PO</h3>
-            <img src="https://i.postimg.cc/vmz06r6Z/IMG-20240720-174512.jpg" alt="Po renowacji">
-          </div>
-        </div>
-      </div>
-      
-      <div class="restoration-project">
-        <h2>Krzesło "Ocalone od Zapomnienia"</h2>
-        <div class="comparison-container">
-          <div class="image-column before">
-            <h3>PRZED</h3>
-            <img src="https://i.postimg.cc/Q9LTvYV7/IMG-20240707-WA0000.jpg" alt="Przed renowacją">
-            <img src="https://i.postimg.cc/06KSW15x/IMG-20240706-143235.jpg" alt="Przed renowacją">
-            <img src="https://i.postimg.cc/ZBrdmPyM/IMG-20240706-154426.jpg" alt="Przed renowacją">
-          </div>
-          <div class="image-column after">
-            <h3>PO</h3>
-            <img src="https://i.postimg.cc/q6JXZDZL/20250706-101002.jpg" alt="Po renowacji">
-          </div>
-        </div>
-      </div>
-
+  <h1>Galeria z Duszą</h1>
+  <div id="gallery-container" class="gallery">
+    <p>Ładowanie galerii...</p>
     </div>
-  </main>
 
-  <footer>
-    <p>© 2025 Od Dna do Światła</p>
-  </footer>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyANxGt1rQtBamptyYVI5ZNMtyGbpOhWBqE",
+      authDomain: "od-dna-do-swiatla.firebaseapp.com",
+      projectId: "od-dna-do-swiatla",
+      storageBucket: "od-dna-do-swiatla.firebasestorage.app",
+      messagingSenderId: "96366183668",
+      appId: "1:96366183668:web:37f36a4004dd6fd85acaa1"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+  </script>
+
+  <script>
+    window.addEventListener('load', () => {
+        const galleryContainer = document.getElementById('gallery-container');
+        db.collection('galeria').orderBy('createdAt', 'desc').get()
+            .then(querySnapshot => {
+                if (querySnapshot.empty) {
+                    galleryContainer.innerHTML = '<p>Brak zdjęć w galerii. Dodaj pierwsze w panelu admina.</p>';
+                    return;
+                }
+                let html = '';
+                querySnapshot.forEach(doc => {
+                    const photo = doc.data();
+                    html += `
+                        <div class="photo">
+                          <img src="img/${photo.filename}" alt="${photo.caption}" />
+                          <div class="caption">${photo.caption}</div>
+                        </div>
+                    `;
+                });
+                galleryContainer.innerHTML = html;
+            })
+            .catch(error => {
+                console.error("Błąd ładowania galerii: ", error);
+                galleryContainer.innerHTML = '<p>Wystąpił błąd podczas ładowania galerii.</p>';
+            });
+    });
+  </script>
 </body>
 </html>
